@@ -130,7 +130,7 @@ def test(freq):
         OC.run(freq)
     except ImportError as e:
         print(str(e))
-        print("You can get the test on: ")
+        print("You can get the test on: https://github.com/nspsck/RP2040_Micropython_voltage_control")
         
 
 def find_valid_clocks(limit):
@@ -139,7 +139,7 @@ def find_valid_clocks(limit):
         OC.find_clock_freq(limit)
     except ImportError as e:
         print(str(e))
-        print("You can get the test on: ")
+        print("You can get the test on: https://github.com/nspsck/RP2040_Micropython_voltage_control")
         
                 
                 
