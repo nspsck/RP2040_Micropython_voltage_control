@@ -52,9 +52,11 @@ def find_clock_freq(limit):
 
 
 def print_info(count, end, start, temperature, id):
-    print("Round: %d, time used: %d ms, done by thread %d." % (count, end - start, id))
+    print("Round: %d, time used: %d ms, done by thread %d." 
+          % (count, end - start, id))
     temperature = 27- (machine.ADC(4).read_u16() * 3.3 / (65535)- 0.706)/0.001721
-    print("Current frequency: %dMHz Temperature: {:.2f}".format(round(temperature, 2)) % (machine.freq() // 1000000))
+    print("Current frequency: %dMHz Temperature: {:.2f}".format(round(temperature, 2))
+          % (machine.freq() // 1000000))
     
 
 def stresstest_vanilla(random):
@@ -86,7 +88,8 @@ def stresstest(random, functionID):
     
     #calculate the time used by running the stress test
     change_frequency(turbo_freq)
-    print("Current frequency (OC): %dMHz" % (machine.freq() // 1000000))
+    print("Current frequency (OC): %dMHz" 
+          % (machine.freq() // 1000000))
     start = time.ticks_ms()
     if (functionID == 0):
         stresstest_vanilla(random)
@@ -122,7 +125,8 @@ def run_non_stop(freq):
         change_frequency(turbo_freq)
     except ValueError as e:
         freqlock.release()
-        print("ValueError: can not change frequency to %dMHz" % (turbo_freq // 1000000))
+        print("ValueError: can not change frequency to %dMHz" 
+              % (turbo_freq // 1000000))
         print("Aborted.")
         return e
 
@@ -163,7 +167,8 @@ def run(freq):
         change_frequency(turbo_freq)
     except ValueError as e:
         freqlock.release()
-        print("ValueError: can not change frequency to %dMHz" % (turbo_freq // 1000000))
+        print("ValueError: can not change frequency to %dMHz" 
+              % (turbo_freq // 1000000))
         print("Aborted.")
         return e
     
