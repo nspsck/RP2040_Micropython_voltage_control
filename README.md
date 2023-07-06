@@ -14,7 +14,7 @@ The POV.py (well, not point of view, but Pico-overvoltaging) is used to control 
 You can just upload the 2 files to your pico through thonny or other IDE/commands.
 
 Examples:
-1. setting voltage.
+1. setting voltage. Note: this chip seems to be temperature sensitive, that means, you can achieve higher frequency if you provide lower temperature.
 ```python
 import POV
 POV.set_voltage(1.10)
