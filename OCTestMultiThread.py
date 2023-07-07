@@ -147,8 +147,11 @@ def test_thread():
         if run_count > 100:
             break 
         stresstest(random, 1)
-    quitting_lock.release()
-    _thread.exit()
+    try:
+        _thread.exit()
+    except SystemExit as e:
+        quitting_lock.release()
+        pass
             
 
 def run(freq):
