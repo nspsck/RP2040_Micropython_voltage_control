@@ -32,6 +32,7 @@ turbo_freq = 0
 run_count = 0
 
 lock = _thread.allocate_lock()
+quitting_lock = _thread.allocate_lock()
 freqlock = _thread.allocate_lock()
 
 def is_valid_freq(freq):
@@ -55,7 +56,7 @@ def print_info(count, end, start, temperature, id):
     print("Round: %d, time used: %d ms, done by thread %d." 
           % (count, end - start, id))
     temperature = 27- (machine.ADC(4).read_u16() * 3.3 / (65535)- 0.706)/0.001721
-    print("Current frequency: %dMHz Temperature: {:.2f}".format(round(temperature, 2))
+    print("Current frequency: %dMHz Temperature: {:.2f}".format(round(temperature, 2)) 
           % (machine.freq() // 1000000))
     
 
@@ -137,12 +138,8 @@ def run_non_stop(freq):
         
 def test_thread():
     global run_count
-    global count
-    
-    # reset for next run    
-    run_count = 0
-    count = 0
-    
+    # this lock ensures that the thread on core1 can terminate
+    quitting_lock.acquire()
     while True:
         lock.acquire()
         run_count += 1
@@ -150,6 +147,8 @@ def test_thread():
         if run_count > 100:
             break 
         stresstest(random, 1)
+    quitting_lock.release()
+    _thread.exit()
             
 
 def run(freq):
@@ -173,6 +172,11 @@ def run(freq):
         return e
     
     print("The test goes for 100 rounds total.")
+    
+    # this means that the task on core1 has been finished.
+    quitting_lock.acquire()
+    quitting_lock.release()
+    
     _thread.start_new_thread(test_thread, ())
     
     while True:
@@ -182,8 +186,11 @@ def run(freq):
         if run_count > 100:
             break  
         stresstest(random, 0)
+    
+    # this prevents the main thread terminates before core1. 
+    # if 
+    quitting_lock.acquire()
+    quitting_lock.release()
         
-
-
 
 
