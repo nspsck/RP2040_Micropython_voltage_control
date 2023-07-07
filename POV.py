@@ -39,8 +39,7 @@ _CLEAN_RAMDOM_BITS_MASK = const(0x000000f0)
 
 
 def read_mem(mem_addr):
-    return machine.mem32[mem_addr
-]
+    return machine.mem32[mem_addr]
 
 
 def voltage_control_bits(volt_bits):
