@@ -164,15 +164,13 @@ def run(freq):
     count = 0
     
     # Test to see if the frequency is supported
-    turbo_freq = int(freq * 1000000)
-    try:
-        change_frequency(turbo_freq)
-    except ValueError as e:
-        freqlock.release()
+    if is_valid_freq(freq):
+        turbo_freq = int(freq * 1000000)
+    else:
         print("ValueError: can not change frequency to %dMHz" 
-              % (turbo_freq // 1000000))
+              % freq)
         print("Aborted.")
-        return e
+        return
     
     print("The test goes for 100 rounds total.")
     
