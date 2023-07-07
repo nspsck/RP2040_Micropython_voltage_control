@@ -10,7 +10,18 @@ VSEL = const(0x000000f0) #[7:4] VSEL (0xb): output voltage select
 HIZ = const(0x00000002) #[1] HIZ (0): high impedance mode select
 EN = const(0x00000001) #[0] EN (1): enable
 
-Everything else is unused.
+Everything else in the content of this address is unused.
+
+Unused bit combinations to control the voltage:
+_UNUSED_1 = const(0b0000)
+_UNUSED_2 = const(0b0001)
+_UNUSED_3 = const(0b0010)
+_UNUSED_4 = const(0b0011)
+_UNUSED_5 = const(0b0100)
+_UNUSED_6 = const(0b0101)
+
+Trying to use these bit combinations will result a hard reset.
+Using 0.85v could also cause a hard reset.
 
 """
 
