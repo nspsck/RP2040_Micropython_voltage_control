@@ -189,7 +189,6 @@ def run(freq):
         stresstest(random, 0)
     
     # this prevents the main thread terminates before core1. 
-    # if 
     quitting_lock.acquire()
     quitting_lock.release()
         
