@@ -8,6 +8,13 @@ The flash can be accessed even under 312 MHz, tho the reliability has not been t
 
 Source: [https://www.youtube.com/watch?v=rU381A-b79c](https://www.youtube.com/watch?v=rU381A-b79c)
 
+EDIT: after some digging, I found a solution: 
+```shell
+cd micropython/lib/pico-sdk/src/boards/include/boards
+vim pico.h
+```
+now set the `PICO_FLASH_SPI_CLKDIV 2` to `PICO_FLASH_SPI_CLKDIV 4` and quit, you can also use nano or the editor you prefer.
+
 
 # Usage
 The POV.py (well, not point of view, but Pico-overvoltaging) is used to control voltage and combined with OCTestMultiThread.py, you may try to overclock and test your boards. 
