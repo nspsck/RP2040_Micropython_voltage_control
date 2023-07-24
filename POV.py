@@ -125,7 +125,7 @@ def test_non_stop(freq):
         OC.run_non_stop(freq)
     except ImportError as e:
         print("ImportError", str(e))
-        print("You can get the test on: ")
+        print("You can get the test on: https://github.com/nspsck/RP2040_Micropython_voltage_control")
         
 
 def test(freq):
