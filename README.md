@@ -4,12 +4,12 @@ This script let you control the voltage (0.85v ~ 1.30v) of any rp2040 based boar
 # Warning
 Even this script only let you use voltages in a range that is specified by the documentations, there is no guarantee that operating the chip at certain voltage won't damage the board.
 
-EDIT: after some digging, I found a solution: 
+If you wish to operate the chip on a higher clock such as 300+ Mhz, please set the `PICO_FLASH_SPI_CLKDIV` to at least `4`. And this is how you do it:
 ```shell
 cd micropython/lib/pico-sdk/src/boards/include/boards
 vim pico.h
 ```
-now set the `PICO_FLASH_SPI_CLKDIV 2` to `PICO_FLASH_SPI_CLKDIV 4` and quit, you can also use nano or the editor you prefer.
+now change the `PICO_FLASH_SPI_CLKDIV 2` to `PICO_FLASH_SPI_CLKDIV 4` and quit, you can also use nano or the editor you prefer.
 
 
 # Usage
