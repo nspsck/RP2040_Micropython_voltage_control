@@ -4,10 +4,6 @@ This script let you control the voltage (0.85v ~ 1.30v) of any rp2040 based boar
 # Warning
 Even this script only let you use voltages in a range that is specified by the documentations, there is no guarantee that operating the chip at certain voltage won't damage the board.
 
-The flash can be accessed even under 312 MHz, tho the reliability has not been tested. Also this lead me to suspect that the flash is holding the core frequency back. As in C (using the pico SDK), way higher frequency (over 400 MHz) can be reached. But after 300 MHz, the flash storage started to malfunction. (Can be fixed by divide the clock by 4)
-
-Source: [https://www.youtube.com/watch?v=rU381A-b79c](https://www.youtube.com/watch?v=rU381A-b79c)
-
 EDIT: after some digging, I found a solution: 
 ```shell
 cd micropython/lib/pico-sdk/src/boards/include/boards
