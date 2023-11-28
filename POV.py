@@ -46,32 +46,21 @@ VOLTAGE_CONSTANTS = [
 _CLEAN_VSEL_VALUE_MASK = const(0xffffff0f)
 _CLEAN_RAMDOM_BITS_MASK = const(0x000000f0)
 
-
-def read_mem(mem_addr):
-    return machine.mem32[mem_addr]
-
-
 def voltage_control_bits(volt_bits):
     return (volt_bits << 4) & _CLEAN_RAMDOM_BITS_MASK
 
-
 def clean_vsel_bits():
-    return read_mem(_VREG_AND_CHIP_RESET_BASE) & _CLEAN_VSEL_VALUE_MASK
-
+    return machine.mem32[_VREG_AND_CHIP_RESET_BASE] & _CLEAN_VSEL_VALUE_MASK
 
 def isclose(a, b):
-    if abs(a - b) < 0.004:
-        return True
-    else:
-        return False
-    
+    return abs(a - b) < 0.004
 
 def set_voltage_bits(volt):
     for idx, value in enumerate(VOLTAGE_CONSTANTS):
         if isclose(volt, 0.85 + idx * 0.05):
             return clean_vsel_bits() ^ voltage_control_bits(value)
-    raise ValueError("Unsupported inputs. Valid inputs have to be close to: 0.85 ~ 1.30, with a 0.05 increment each step. Voltage unchanged.")
 
+    raise ValueError("Unsupported inputs. Valid inputs have to be close to: 0.85 ~ 1.30, with a 0.05 increment each step. Voltage unchanged.")
 
 def set_voltage(volt):
     try:
@@ -81,7 +70,6 @@ def set_voltage(volt):
         print("Error: ", str(e))
         return False
     
-
 def test_non_stop(freq):
     if freq >= 1000:
         print("The unit used is MHz, please try again.")
@@ -96,7 +84,6 @@ def test_non_stop(freq):
         print("ImportError", str(e))
         print("You can get the test on: https://github.com/nspsck/RP2040_Micropython_voltage_control")
         
-
 def test(freq):
     if freq >= 1000:
         print("The unit used is Mhz, please try again.")
@@ -111,7 +98,6 @@ def test(freq):
         print(str(e))
         print("You can get the test on: https://github.com/nspsck/RP2040_Micropython_voltage_control")
         
-
 def find_valid_clocks(limit):
     try:
         import OCTestMultiThread as OC
@@ -119,4 +105,4 @@ def find_valid_clocks(limit):
     except ImportError as e:
         print(str(e))
         print("You can get the test on: https://github.com/nspsck/RP2040_Micropython_voltage_control")
-
+        
