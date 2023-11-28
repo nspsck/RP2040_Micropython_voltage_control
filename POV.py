@@ -25,24 +25,22 @@ Using 0.85v could also cause a hard reset.
 
 """
 
-class VoltageError(Exception):
-    pass
-
-
 # The voltage and chip reset control address
 _VREG_AND_CHIP_RESET_BASE = const(0x40064000)
 
 # Possible voltage
-_VREG_VOLTAGE_0_85 = const(0b0110)    #< 0.85v
-_VREG_VOLTAGE_0_90 = const(0b0111)    #< 0.90v
-_VREG_VOLTAGE_0_95 = const(0b1000)    #< 0.95v
-_VREG_VOLTAGE_1_00 = const(0b1001)    #< 1.00v
-_VREG_VOLTAGE_1_05 = const(0b1010)    #< 1.05v
-_VREG_VOLTAGE_1_10 = const(0b1011)    #< 1.10v
-_VREG_VOLTAGE_1_15 = const(0b1100)    #< 1.15v
-_VREG_VOLTAGE_1_20 = const(0b1101)    #< 1.20v
-_VREG_VOLTAGE_1_25 = const(0b1110)    #< 1.25v
-_VREG_VOLTAGE_1_30 = const(0b1111)    #< 1.30v
+VOLTAGE_CONSTANTS = [
+    const(0b0110),  # < 0.85v
+    const(0b0111),  # < 0.90v
+    const(0b1000),  # < 0.95v
+    const(0b1001),  # < 1.00v
+    const(0b1010),  # < 1.05v
+    const(0b1011),  # < 1.10v
+    const(0b1100),  # < 1.15v
+    const(0b1101),  # < 1.20v
+    const(0b1110),  # < 1.25v
+    const(0b1111),  # < 1.30v
+]
 
 # The masks to extract/replace the voltage settings
 _CLEAN_VSEL_VALUE_MASK = const(0xffffff0f)
@@ -69,39 +67,10 @@ def isclose(a, b):
     
 
 def set_voltage_bits(volt):
-
-    if isclose(volt, 0.85):
-        return clean_vsel_bits() ^ voltage_control_bits(_VREG_VOLTAGE_0_85)
-
-    elif isclose(volt, 0.90):
-        return clean_vsel_bits() ^ voltage_control_bits(_VREG_VOLTAGE_0_90)
-
-    elif isclose(volt, 0.95):
-        return clean_vsel_bits() ^ voltage_control_bits(_VREG_VOLTAGE_0_95)
-
-    elif isclose(volt, 1.00):
-        return clean_vsel_bits() ^ voltage_control_bits(_VREG_VOLTAGE_1_00)
-
-    elif isclose(volt, 1.05):
-        return clean_vsel_bits() ^ voltage_control_bits(_VREG_VOLTAGE_1_05)
-
-    elif isclose(volt, 1.10):
-        return clean_vsel_bits() ^ voltage_control_bits(_VREG_VOLTAGE_1_10)
-
-    elif isclose(volt, 1.15):
-        return clean_vsel_bits() ^ voltage_control_bits(_VREG_VOLTAGE_1_15)
-
-    elif isclose(volt, 1.20):
-        return clean_vsel_bits() ^ voltage_control_bits(_VREG_VOLTAGE_1_20)
-
-    elif isclose(volt, 1.25):
-        return clean_vsel_bits() ^ voltage_control_bits(_VREG_VOLTAGE_1_25)
-
-    elif isclose(volt, 1.30):
-        return clean_vsel_bits() ^ voltage_control_bits(_VREG_VOLTAGE_1_30)
-
-    else:
-        raise ValueError("Unsupported inputs. Valid inputs has to be close to: 0.85 ~ 1.30, with a 0.05 increment each step. Voltage unchanged.")
+    for idx, value in enumerate(VOLTAGE_CONSTANTS):
+        if isclose(volt, 0.85 + idx * 0.05):
+            return clean_vsel_bits() ^ voltage_control_bits(value)
+    raise ValueError("Unsupported inputs. Valid inputs have to be close to: 0.85 ~ 1.30, with a 0.05 increment each step. Voltage unchanged.")
 
 
 def set_voltage(volt):
@@ -150,6 +119,4 @@ def find_valid_clocks(limit):
     except ImportError as e:
         print(str(e))
         print("You can get the test on: https://github.com/nspsck/RP2040_Micropython_voltage_control")
-        
-                
-                
+
