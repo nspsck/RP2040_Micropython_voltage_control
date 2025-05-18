@@ -4,13 +4,7 @@ This script let you control the voltage (0.85v ~ 1.30v) of any rp2040 based boar
 # Warning
 Even this script only let you use voltages in a range that is specified by the documentations, there is no guarantee that operating the chip at certain voltage won't damage the board.
 
-If you wish to operate the chip on a higher clock such as 300+ Mhz, please set the `PICO_FLASH_SPI_CLKDIV` to at least `4`. And this is how you do it:
-```shell
-cd micropython/lib/pico-sdk/src/boards/include/boards
-vim pico.h
-```
-now change the `PICO_FLASH_SPI_CLKDIV 2` to `PICO_FLASH_SPI_CLKDIV 4` and quit, you can also use nano or the editor you prefer.
-
+The new Micropython firmware (v1.25.0) will be adjusting flasch clock divider for you. So there is no need to do it the old way.
 
 # Usage
 The POV.py (well, not point of view, but Pico-overvoltaging) is used to control voltage and combined with OCTestMultiThread.py, you may try to overclock and test your boards. 
